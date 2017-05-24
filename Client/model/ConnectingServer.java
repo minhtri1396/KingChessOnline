@@ -39,7 +39,7 @@ public class ConnectingServer {
         ) {
             // Send server request message
             Requester requester = MessagesManager.sendRequest(msgType);
-            byte[] requestContent = requester.getRequestContent(msgType);
+            byte[] requestContent = requester.getRequestContent(values);
             bo.write(requestContent.length);
             bo.write(requestContent);
             bo.flush();
