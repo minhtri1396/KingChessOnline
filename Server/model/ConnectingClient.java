@@ -40,6 +40,12 @@ public class ConnectingClient implements Runnable {
             bo.flush();
         } catch (IOException ioe) {
             ErrorLogger.log(ConnectingClient.class, ioe);
+        } finally {
+            try {
+                socket.close();
+            } catch (IOException ioe) {
+                ErrorLogger.log(ConnectingClient.class, ioe);
+            }
         }
     }
     
