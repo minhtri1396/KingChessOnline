@@ -104,7 +104,9 @@ public class Wrapper {
         
         for (byte b : pack) {
             if (b == 0) { break; }
-            ++count;
+            if ((b & 0x80) == 0) {
+                ++count;
+            }
         }
         
         return count;
@@ -119,7 +121,7 @@ public class Wrapper {
                 info[iInfo] = pack[iPack++];
             } else {
                 while ((pack[iPack] & 0x80) != 0) {
-                    info[iInfo] += pack[iPack++];
+                    info[iInfo] += (pack[iPack++] & 0x7F); // (pack[iPack++] & 0x7F) is 126
                 }
                 info[iInfo] += pack[iPack++];
             }
