@@ -32,6 +32,7 @@ public class ConnectingClient implements Runnable {
         ) {
             // Receive request message from client.
             byte[] message  = new byte[bi.read()];
+            bi.read(message);
             Responser responser = MessagesManager.recvRequest(message);
             // Send the client response message.
             byte[] responseMessage = responser.makeResponseContentFor(message);
