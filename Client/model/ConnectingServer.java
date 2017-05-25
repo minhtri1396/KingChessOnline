@@ -34,7 +34,7 @@ public class ConnectingServer {
     // Message format:
     // first: #bytes
     // remained bytes: content of message
-    public boolean sendMessage(MessageType msgType, Object values) {
+    public Object sendMessage(MessageType msgType, Object values) {
         try (
             BufferedInputStream bi = new BufferedInputStream(socket.getInputStream());
             BufferedOutputStream bo = new BufferedOutputStream(socket.getOutputStream());
@@ -48,12 +48,11 @@ public class ConnectingServer {
             // Receive response message from server
             byte[] responseContent  = new byte[bi.read()];
             bi.read(responseContent);
-            Object content = requester.translate(responseContent);
             
-            return true;
+            return requester.translate(responseContent);
         } catch (IOException ioe) {
             ErrorLogger.log(ConnectingServer.class, ioe);
-            return false;
+            return null;
         }
     }
     
