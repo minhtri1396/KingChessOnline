@@ -1,5 +1,6 @@
 package controller;
 
+import helper.Wrapper;
 import model.responser.JoinRoomResponser;
 import model.responser.NewRoomResponser;
 import model.responser.QuitRoomResponser;
@@ -12,7 +13,7 @@ import model.responser.StartMatchResponser;
 public class MessagesManager {
     
     public static Responser recvRequest(byte[] message) {
-        switch(message[0]) {
+        switch((int)Wrapper.INSTANCE.unwrap(message)[0]) {
             case 0:
                 return FinishMatchResponser.Instance;
             case 1:
