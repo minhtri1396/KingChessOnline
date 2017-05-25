@@ -1,5 +1,7 @@
 package helper;
 
+import java.util.ArrayList;
+
 public class Converter {
     
     public static byte[] toBytes(String value) {
@@ -37,6 +39,16 @@ public class Converter {
                 (byte)(value >>> 8),
                 (byte)value
         };
+    }
+    
+    public static byte[] toBytes(ArrayList<Byte> value) {
+        byte[] bytes = new byte[value.size()];
+        
+        for (int iValue = 0; iValue < bytes.length; ++iValue) {
+            bytes[iValue] = value.get(iValue);
+        }
+        
+        return bytes;
     }
     
     public static String toString(byte[] bytes) {
