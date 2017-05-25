@@ -7,10 +7,10 @@ public class App {
     
     public static final App INSTANCE = new App();
     
-    public RoomList rooms;
+    public RoomList Rooms;
     
     private App() {
-        rooms = new RoomList();
+        Rooms = new RoomList();
     }
     
     public void start() {
