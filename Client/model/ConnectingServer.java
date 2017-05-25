@@ -18,21 +18,23 @@ public class ConnectingServer {
     
     private ConnectingServer() {}
     
-    public void create(String serverIP, int serverPort) {
+    public boolean create(String serverIP, int serverPort) {
         if (socket == null) {
             try {
                 InetAddress serverAddr = InetAddress.getByName(serverIP);
                 socket = new Socket(serverAddr, serverPort);
+                return true;
             } catch (IOException ioe) {
                 ErrorLogger.log(ConnectingServer.class, ioe);
             }
         }
+        return false;
     }
 
     // Message format:
     // first: #bytes
     // remained bytes: content of message
-    public void sendMessage(MessageType msgType, Object values) {
+    public boolean sendMessage(MessageType msgType, Object values) {
         try (
             BufferedInputStream bi = new BufferedInputStream(socket.getInputStream());
             BufferedOutputStream bo = new BufferedOutputStream(socket.getOutputStream());
@@ -47,8 +49,11 @@ public class ConnectingServer {
             byte[] responseContent  = new byte[bi.read()];
             bi.read(responseContent);
             Object content = requester.translate(responseContent);
+            
+            return true;
         } catch (IOException ioe) {
             ErrorLogger.log(ConnectingServer.class, ioe);
+            return false;
         }
     }
     
