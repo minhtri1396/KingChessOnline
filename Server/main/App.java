@@ -1,5 +1,6 @@
 package main;
 
+import helper.ThreadPool;
 import model.WaitingClient;
 import model.datatype.RoomList;
 
@@ -14,6 +15,7 @@ public class App {
     }
     
     public void start() {
+        ThreadPool.BUILDER.start();
         WaitingClient.asynchronousWaitingOn("127.0.0.1", 3000, 100);
     }
     
