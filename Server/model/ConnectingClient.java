@@ -38,7 +38,7 @@ public class ConnectingClient implements Runnable {
             bi.read(message);
             Responser responser = MessagesManager.recvRequest(message);
             // Send the client response message.
-            byte[] responseMessage = responser.makeResponseContentFor(message);
+            byte[] responseMessage = responser.makeResponseContentFor(message, this.socket);
             bo.write(Converter.toBytes(responseMessage.length));
             bo.write(responseMessage);
             bo.flush();

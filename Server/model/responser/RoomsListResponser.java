@@ -2,6 +2,7 @@ package model.responser;
 
 import helper.Converter;
 import helper.Wrapper;
+import java.net.Socket;
 import java.util.ArrayList;
 import main.App;
 import model.datatype.Room;
@@ -10,7 +11,7 @@ public class RoomsListResponser implements Responser {
     public static final RoomsListResponser Instance = new RoomsListResponser();
     
     @Override
-    public byte[] makeResponseContentFor(byte[] message) {
+    public byte[] makeResponseContentFor(byte[] message, Socket socket) {
         Object[] info = Wrapper.INSTANCE.unwrap(message);
         long clientTimestamp = Converter.toLong((byte[])info[1]);
         
