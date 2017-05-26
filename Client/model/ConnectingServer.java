@@ -2,6 +2,7 @@ package model;
 
 import controller.MessagesManager;
 import controller.MessagesManager.MessageType;
+import helper.Converter;
 import helper.ErrorLogger;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -42,11 +43,13 @@ public class ConnectingServer {
             // Send server request message
             Requester requester = MessagesManager.sendRequest(msgType);
             byte[] requestContent = requester.getRequestContent(values);
-            bo.write(requestContent.length);
+            bo.write(Converter.toBytes(requestContent.length));
             bo.write(requestContent);
             bo.flush();
-            // Receive response message from server
-            byte[] responseContent  = new byte[bi.read()];
+            // Receive response message from the server
+            byte[] msgSize = new byte[4];
+            bi.read(msgSize);
+            byte[] responseContent  = new byte[Converter.toInt(msgSize)];
             bi.read(responseContent);
             
             return requester.translate(responseContent);

@@ -1,6 +1,7 @@
 package model;
 
 import controller.MessagesManager;
+import helper.Converter;
 import helper.ErrorLogger;
 import helper.ThreadPool;
 import java.io.BufferedInputStream;
@@ -31,12 +32,14 @@ public class ConnectingClient implements Runnable {
             BufferedOutputStream bo = new BufferedOutputStream(socket.getOutputStream());
         ) {
             // Receive request message from client.
-            byte[] message  = new byte[bi.read()];
+            byte[] msgSize = new byte[4];
+            bi.read(msgSize);
+            byte[] message  = new byte[Converter.toInt(msgSize)];
             bi.read(message);
             Responser responser = MessagesManager.recvRequest(message);
             // Send the client response message.
             byte[] responseMessage = responser.makeResponseContentFor(message);
-            bo.write(responseMessage.length);
+            bo.write(Converter.toBytes(responseMessage.length));
             bo.write(responseMessage);
             bo.flush();
         } catch (IOException ioe) {
