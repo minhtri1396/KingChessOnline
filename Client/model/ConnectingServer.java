@@ -19,17 +19,16 @@ public class ConnectingServer {
     
     private ConnectingServer() {}
     
+    // We should invoke this method before sending anything to server
     public boolean create(String serverIP, int serverPort) {
-        if (socket == null) {
-            try {
-                InetAddress serverAddr = InetAddress.getByName(serverIP);
-                socket = new Socket(serverAddr, serverPort);
-                return true;
-            } catch (IOException ioe) {
-                ErrorLogger.log(ConnectingServer.class, ioe);
-            }
+        try {
+            InetAddress serverAddr = InetAddress.getByName(serverIP);
+            socket = new Socket(serverAddr, serverPort);
+            return true;
+        } catch (IOException ioe) {
+            ErrorLogger.log(ConnectingServer.class, ioe);
+            return false;
         }
-        return false;
     }
 
     // Message format:
