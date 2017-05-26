@@ -24,7 +24,8 @@ public class LoginResponser implements Responser {
                 return Wrapper.INSTANCE.wrap(new Object[] {
                     Converter.toBytes(playerID),
                     Converter.toBytes(player.getLevel()),
-                    Converter.toBytes(player.getName())
+                    Converter.toBytes(player.getName()),
+                    Converter.toBytes(socket.getInetAddress().getHostAddress())
                 });
             }
         }
