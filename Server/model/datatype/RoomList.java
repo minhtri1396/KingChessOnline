@@ -30,6 +30,24 @@ public class RoomList {
         return roomAsList;
     }
     
+    public void updateRoom(Room room) {
+        Object[] content;
+        synchronized(rooms) {
+            if ((content = rooms.get(room.getId())) != null) {
+                Room oldRoom = (Room)content[0]; // 0: room, 1: admin
+                if (!oldRoom.getName().equals(room.getName())) {
+                    oldRoom.setName(room.getName());
+                    timestamp = System.currentTimeMillis();
+                }
+                
+                if (oldRoom.getNumberPlayers() != room.getNumberPlayers()) {
+                    oldRoom.setNumberPlayers(room.getNumberPlayers());
+                    timestamp = System.currentTimeMillis();
+                }
+            }
+        }
+    }
+    
     public void addRoom(Room room, Player admin) {
         synchronized(rooms) {
             rooms.put(room.getId(), new Object[]{
