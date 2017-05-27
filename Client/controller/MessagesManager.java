@@ -5,7 +5,7 @@ import model.requester.JoinRoomRequester;
 import model.requester.LoginRequester;
 import model.requester.NewRoomRequester;
 import model.requester.QuitRoomRequester;
-import model.requester.RenewRoomRequester;
+import model.requester.RefreshRoomRequester;
 import model.requester.Requester;
 import model.requester.RoomsListRequester;
 import model.requester.StartMatchRequester;
@@ -22,7 +22,7 @@ public class MessagesManager {
         ROOMS_LIST(4),
         START_MATCH(5),
         LOGIN(6),
-        RENEW_ROOM(7);
+        REFRESH_ROOM(7);
         
         private final int id;
         private MessageType(int id) {
@@ -51,8 +51,8 @@ public class MessagesManager {
                 return StartMatchRequester.Instance;
             case LOGIN:
                 return LoginRequester.Instance;
-            case RENEW_ROOM:
-                return RenewRoomRequester.Instance;
+            case REFRESH_ROOM:
+                return RefreshRoomRequester.Instance;
             default:
                 return null;
         }
