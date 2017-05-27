@@ -1,8 +1,8 @@
-package model.requester;
+package model.client_server;
 
-public class StartMatchRequester implements Requester {
-    public static final StartMatchRequester Instance = new StartMatchRequester();
-
+public class FinishMatchRequester implements Requester {
+    public static final FinishMatchRequester Instance = new FinishMatchRequester();
+    
     @Override
     public byte[] getRequestContent(Object values) {
         return null;

@@ -1,4 +1,4 @@
-package model.requester;
+package model.client_server;
 
 import controller.MessagesManager;
 import helper.Converter;

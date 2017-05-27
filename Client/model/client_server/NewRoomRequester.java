@@ -1,7 +1,7 @@
-package model.requester;
+package model.client_server;
 
-public class FinishMatchRequester implements Requester {
-    public static final FinishMatchRequester Instance = new FinishMatchRequester();
+public class NewRoomRequester implements Requester {
+    public static final NewRoomRequester Instance = new NewRoomRequester();
     
     @Override
     public byte[] getRequestContent(Object values) {

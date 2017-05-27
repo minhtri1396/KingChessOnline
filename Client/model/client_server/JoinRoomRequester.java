@@ -1,7 +1,7 @@
-package model.requester;
+package model.client_server;
 
-public class NewRoomRequester implements Requester {
-    public static final NewRoomRequester Instance = new NewRoomRequester();
+public class JoinRoomRequester implements Requester {
+    public static final JoinRoomRequester Instance = new JoinRoomRequester();
     
     @Override
     public byte[] getRequestContent(Object values) {
