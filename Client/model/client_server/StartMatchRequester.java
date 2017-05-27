@@ -19,7 +19,6 @@ public class StartMatchRequester implements Requester {
 
     @Override
     public Object translate(byte[] message) {
-        
-        return null;
+        return (byte)Wrapper.INSTANCE.unwrap(message)[0] == 1;
     }
 }
