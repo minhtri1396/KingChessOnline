@@ -30,8 +30,9 @@ public class RoomList {
         return roomAsList;
     }
     
-    public void updateRoom(Room room) {
+    public boolean updateRoom(Room room) {
         Object[] content;
+        boolean isSuccess = false;
         synchronized(rooms) {
             if ((content = rooms.get(room.getId())) != null) {
                 Room oldRoom = (Room)content[0]; // 0: room, 1: admin
@@ -44,8 +45,11 @@ public class RoomList {
                     oldRoom.setNumberPlayers(room.getNumberPlayers());
                     timestamp = System.currentTimeMillis();
                 }
+                
+                isSuccess = true;
             }
         }
+        return isSuccess;
     }
     
     public void addRoom(Room room, Player admin) {
