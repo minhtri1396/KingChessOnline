@@ -5,7 +5,7 @@ import java.util.TreeMap;
 
 public class RoomList {
     
-    private Long timestamp;
+    private long timestamp;
     private final TreeMap<Integer, Object[]> rooms; // 0: room, 1: room admin (player)
     
     public RoomList() {
@@ -40,7 +40,7 @@ public class RoomList {
         }
     }
     
-    public synchronized void removeRoom(int id) {
+    public void removeRoom(int id) {
         synchronized(rooms) {
             rooms.remove(id);
             timestamp = System.currentTimeMillis();
