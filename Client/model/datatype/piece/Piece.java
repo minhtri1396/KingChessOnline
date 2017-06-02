@@ -1,16 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package Client.model.game;
+package model.datatype.piece;
 
 import java.util.ArrayList;
-
-/**
- *
- * @author InNovaTioN
- */
+import model.game.Cell;
+import model.game.Coordinate;
 
 public abstract class Piece implements Cloneable
 {
@@ -61,5 +53,5 @@ public abstract class Piece implements Cloneable
         this.m_PathImg = m_PathImg;
     }
     
-    protected abstract ArrayList<Cell> SuggestMove(Cell[][] board, Coordinate coord);
+    protected abstract ArrayList<Cell> suggestMove(Cell[][] board, Coordinate coord);
 }

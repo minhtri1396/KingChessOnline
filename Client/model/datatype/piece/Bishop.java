@@ -1,16 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package Client.model.game;
+package model.datatype.piece;
 
 import java.util.ArrayList;
+import model.game.Cell;
+import model.game.Coordinate;
 
-/**
- *
- * @author InNovaTioN
- */
 public class Bishop extends Piece
 {
     public Bishop(String name, String img, int color)
@@ -18,7 +11,8 @@ public class Bishop extends Piece
         super(name, img, color);
     }
     
-    public ArrayList<Cell> SuggestMove(Cell[][] board, Coordinate coord)
+    @Override
+    public ArrayList<Cell> suggestMove(Cell[][] board, Coordinate coord)
     {
         ArrayList<Cell> res = new ArrayList<>();
         
