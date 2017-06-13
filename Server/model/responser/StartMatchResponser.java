@@ -5,7 +5,7 @@ import helper.Wrapper;
 import java.net.Socket;
 import main.App;
 
-public class StartMatchResponser implements Responser {
+public class StartMatchResponser implements IResponser {
     public static final StartMatchResponser Instance = new StartMatchResponser();
     
     @Override

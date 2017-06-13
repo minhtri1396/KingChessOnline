@@ -2,7 +2,7 @@ package model.responser;
 
 import java.net.Socket;
 
-public class FinishMatchResponser implements Responser {
+public class FinishMatchResponser implements IResponser {
     public static final FinishMatchResponser Instance = new FinishMatchResponser();
     
     @Override

@@ -5,9 +5,9 @@ import helper.Wrapper;
 import java.net.Socket;
 import java.util.ArrayList;
 import main.App;
-import model.datatype.Room;
+import model.type.Room;
 
-public class RoomsListResponser implements Responser {
+public class RoomsListResponser implements IResponser {
     public static final RoomsListResponser Instance = new RoomsListResponser();
     
     @Override

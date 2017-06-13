@@ -5,17 +5,17 @@ import helper.Wrapper;
 import model.responser.JoinRoomResponser;
 import model.responser.NewRoomResponser;
 import model.responser.QuitRoomResponser;
-import model.responser.Responser;
 import model.responser.RoomsListResponser;
 import model.responser.FinishMatchResponser;
 import model.responser.LoginResponser;
-import model.responser.RenewRoomResponser;
+import model.responser.RefreshRoomResponser;
 import model.responser.StartMatchResponser;
+import model.responser.IResponser;
 
 // Using pattern: Factory method
 public class MessagesManager {
     
-    public static Responser recvRequest(byte[] message) {
+    public static IResponser recvRequest(byte[] message) {
         switch(Converter.toInt((byte[])Wrapper.INSTANCE.unwrap(message)[0])) {
             case 0:
                 return FinishMatchResponser.Instance;
@@ -32,7 +32,7 @@ public class MessagesManager {
             case 6:
                 return LoginResponser.Instance;
             case 7:
-                return RenewRoomResponser.Instance;
+                return RefreshRoomResponser.Instance;
             default:
                 return null;
         }

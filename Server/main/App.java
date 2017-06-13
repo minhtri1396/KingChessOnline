@@ -2,7 +2,7 @@ package main;
 
 import helper.ThreadPool;
 import model.WaitingClient;
-import model.datatype.RoomList;
+import model.type.RoomList;
 
 public class App {
     

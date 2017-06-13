@@ -5,9 +5,9 @@ import helper.Wrapper;
 import java.net.Socket;
 import model.dao.AccountDAO;
 import model.dao.UserDAO;
-import model.datatype.Player;
+import model.type.Player;
 
-public class LoginResponser implements Responser {
+public class LoginResponser implements IResponser {
     public static final LoginResponser Instance = new LoginResponser();
     
     @Override

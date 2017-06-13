@@ -8,7 +8,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import model.responser.Responser;
+import model.responser.IResponser;
 
 public class ConnectingClient implements Runnable {
     
@@ -36,7 +36,7 @@ public class ConnectingClient implements Runnable {
             bi.read(msgSize);
             byte[] message  = new byte[Converter.toInt(msgSize)];
             bi.read(message);
-            Responser responser = MessagesManager.recvRequest(message);
+            IResponser responser = MessagesManager.recvRequest(message);
             // Send the client response message.
             byte[] responseMessage = responser.makeResponseContentFor(message, this.socket);
             bo.write(Converter.toBytes(responseMessage.length));

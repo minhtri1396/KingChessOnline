@@ -2,7 +2,7 @@ package model.responser;
 
 import java.net.Socket;
 
-public class NewRoomResponser implements Responser {
+public class NewRoomResponser implements IResponser {
     public static final NewRoomResponser Instance = new NewRoomResponser();
     
     @Override

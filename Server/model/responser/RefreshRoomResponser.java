@@ -4,9 +4,9 @@ import helper.Converter;
 import helper.Wrapper;
 import java.net.Socket;
 import main.App;
-import model.datatype.Room;
+import model.type.Room;
 
-public class RefreshRoomResponser implements Responser {
+public class RefreshRoomResponser implements IResponser {
     public static final RefreshRoomResponser Instance = new RefreshRoomResponser();
     
     @Override
