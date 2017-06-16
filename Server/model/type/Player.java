@@ -5,8 +5,8 @@ public class Player {
     private final int id;
     private int level;
     private String name;
-    private final String ip;
-    private final int port;
+    private String ip;
+    private int port;
 
     public Player(int id, String ip, int port) {
         this.id = id;
@@ -20,6 +20,14 @@ public class Player {
     
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
     }
     
     public int getId() {

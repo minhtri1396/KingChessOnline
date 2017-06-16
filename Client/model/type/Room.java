@@ -9,6 +9,7 @@ public class Room {
     public Room(int id, String name) {
         this.id = id;
         this.name = name;
+        numberPlayers = 1;
     }
 
     public int getId() {

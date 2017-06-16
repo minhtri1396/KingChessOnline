@@ -53,7 +53,7 @@ public class UIBoardCellController extends UIController {
     }
     
     public void check() {
-        this.uiView.setBackground(ColorDefine.CHECKED_CELL);
+        this.uiView.setBackground(ColorDefine.MATCH_CELL_CHECKED);
     }
     
     public void uncheck() {

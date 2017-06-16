@@ -254,7 +254,7 @@ public class UILoginView extends UIView {
     
     private JLabel schoolNameLabel;
     private void addFooter() {
-        schoolNameLabel = new JLabel(StringDefine.SCHOOL_NAME);
+        schoolNameLabel = new JLabel(StringDefine.AUTHORS);
         schoolNameLabel.setFont(FontDefine.LOGIN_FOOTER);
         schoolNameLabel.setForeground(ColorDefine.LOGIN_FOOTER);
         schoolNameLabel.setHorizontalAlignment(SwingConstants.CENTER);

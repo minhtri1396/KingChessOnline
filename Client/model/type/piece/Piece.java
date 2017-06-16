@@ -1,9 +1,9 @@
 package model.type.piece;
 
+import helper.ErrorLogger;
 import model.type.enumeration.EPieceColors;
 import model.type.enumeration.EPieces;
 import model.type.enumeration.EPositions;
-import helper.ErrorLogger;
 import java.util.ArrayList;
 import model.type.Board;
 
@@ -28,11 +28,16 @@ public abstract class Piece implements Cloneable
     
     public Piece clonePiece() {
         try {
-            return (Piece)super.clone();
+            return (Piece)this.clone();
         } catch (CloneNotSupportedException ex) {
-            ErrorLogger.log(Piece.class, ex);
+            ErrorLogger.log(this.getClass(), ex);
         }
+        
         return null;
+    }
+    
+    public void setBoard(Board board) {
+        this.board = board;
     }
     
     public EPieces getType() {
@@ -56,7 +61,6 @@ public abstract class Piece implements Cloneable
     }
     
     // Position param will be added to validPositions if it is the valid position
-    // Position param will be added to validPositions if it is the valid position
     protected boolean addAndVerifyPosition(EPositions position, ArrayList<EPositions> validPositions) {
         return addAndVerifyPosition(position, validPositions, true);
     }
@@ -77,4 +81,5 @@ public abstract class Piece implements Cloneable
     }
     
     public abstract ArrayList<EPositions> suggestMoving();
+    public abstract int getHeuristicValue();
 }

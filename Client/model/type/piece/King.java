@@ -53,4 +53,9 @@ public class King extends Piece {
         return validPositions;
     }
     
+    @Override
+    public int getHeuristicValue() {
+        return 10000;
+    }
+    
 }

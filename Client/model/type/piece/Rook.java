@@ -54,4 +54,10 @@ public class Rook extends Piece
             pos.setX(pos.getX() + coefCol);
         }
     }
+    
+    @Override
+    public int getHeuristicValue() {
+        return 600;
+    }
+    
 }

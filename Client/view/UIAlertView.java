@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -13,27 +14,36 @@ import util.WrapEditorKit;
 
 public class UIAlertView extends UIView {
     
+    protected JPanel infoPanel;
     private JTextPane titleLabel;
     private JPanel titlePanel;
-    private JTextPane content;
+    protected JTextPane content;
     private JButton okButton;
     private JButton cancelButton;
     
     public UIAlertView() {
         super();
-        super.setBackground(ColorDefine.ALERT_BKG);
+        super.setBackground(ColorDefine.ALERT_BORDER);
         super.setPreferredSize(SizeDefine.ALERT);
         super.setSize(SizeDefine.ALERT);
         
+        infoPanel = new JPanel();
+        infoPanel.setBackground(ColorDefine.ALERT_BKG);
+        super.add(infoPanel);
+        
+        setInfo();
+    }
+    
+    private void setInfo() {
         addComponents();
         setConstraints();
     }
     
-    private void addComponents() {
+    protected void addComponents() {
         titlePanel = new JPanel();
         titlePanel.setPreferredSize(new Dimension(0, 40));
         titlePanel.setBackground(ColorDefine.ALERT_TITLE_BKG);
-        this.add(titlePanel);
+        infoPanel.add(titlePanel);
         
         titleLabel = new JTextPane();
         titleLabel.setFont(FontDefine.ALERT_TITLE);
@@ -51,45 +61,72 @@ public class UIAlertView extends UIView {
         content.setOpaque(false);
         content.setEditable(false);
         components.put("Content", content);
-        this.add(content);
+        infoPanel.add(content);
         
         okButton = new JButton("XÁC NHẬN");
+        okButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         okButton.setPreferredSize(SizeDefine.ALERT_OK_BUTTON);
         okButton.setBackground(ColorDefine.ALERT_OK_BUTTON);
         okButton.setForeground(Color.WHITE);
         this.components.put("OKButton", okButton);
-        this.add(okButton);
+        infoPanel.add(okButton);
         
         cancelButton = new JButton("HỦY");
+        cancelButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         cancelButton.setPreferredSize(SizeDefine.ALERT_CANCEL_BUTTON);
         cancelButton.setBackground(ColorDefine.ALERT_CANCEL_BUTTON);
         cancelButton.setForeground(Color.WHITE);
         this.components.put("CancelButton", cancelButton);
-        this.add(cancelButton);
+        infoPanel.add(cancelButton);
     }
     
-    private void setConstraints() {
+    protected void setConstraints() {
         SpringLayout mainLayout = new SpringLayout();
         this.setLayout(mainLayout);
+        
+        SpringLayout infoLayout = new SpringLayout();
+        infoPanel.setLayout(infoLayout);
         
         SpringLayout titleLayout = new SpringLayout();
         titlePanel.setLayout(titleLayout);
         
-        // titlePanel
+        // infoPanel
         mainLayout.putConstraint(
-                SpringLayout.NORTH, titlePanel,
-                0,
+                SpringLayout.NORTH, infoPanel,
+                1,
                 SpringLayout.NORTH, this
         );
         mainLayout.putConstraint(
-                SpringLayout.WEST, titlePanel,
-                0,
+                SpringLayout.WEST, infoPanel,
+                1,
                 SpringLayout.WEST, this
         );
         mainLayout.putConstraint(
+                SpringLayout.SOUTH, infoPanel,
+                -1,
+                SpringLayout.SOUTH, this
+        );
+        mainLayout.putConstraint(
+                SpringLayout.EAST, infoPanel,
+                -1,
+                SpringLayout.EAST, this
+        );
+        
+        // titlePanel
+        infoLayout.putConstraint(
+                SpringLayout.NORTH, titlePanel,
+                0,
+                SpringLayout.NORTH, infoPanel
+        );
+        infoLayout.putConstraint(
+                SpringLayout.WEST, titlePanel,
+                0,
+                SpringLayout.WEST, infoPanel
+        );
+        infoLayout.putConstraint(
                 SpringLayout.EAST, titlePanel,
                 0,
-                SpringLayout.EAST, this
+                SpringLayout.EAST, infoPanel
         );
         
         // titleLabel
@@ -105,46 +142,46 @@ public class UIAlertView extends UIView {
         );
         
         // content
-        mainLayout.putConstraint(
+        infoLayout.putConstraint(
                 SpringLayout.NORTH, content,
                 25,
                 SpringLayout.SOUTH, titlePanel
         );
-        mainLayout.putConstraint(
+        infoLayout.putConstraint(
                 SpringLayout.WEST, content,
                 8,
-                SpringLayout.WEST, this
+                SpringLayout.WEST, infoPanel
         );
-        mainLayout.putConstraint(
+        infoLayout.putConstraint(
                 SpringLayout.SOUTH, content,
                 -10,
                 SpringLayout.NORTH, okButton
         );
-        mainLayout.putConstraint(
+        infoLayout.putConstraint(
                 SpringLayout.EAST, content,
                 -8,
-                SpringLayout.EAST, this
+                SpringLayout.EAST, infoPanel
         );
         
         // okButton
-        mainLayout.putConstraint(
+        infoLayout.putConstraint(
                 SpringLayout.SOUTH, okButton,
                 -18,
-                SpringLayout.SOUTH, this
+                SpringLayout.SOUTH, infoPanel
         );
-        mainLayout.putConstraint(
+        infoLayout.putConstraint(
                 SpringLayout.EAST, okButton,
                 -20,
-                SpringLayout.EAST, this
+                SpringLayout.EAST, infoPanel
         );
         
         // cancelButton
-        mainLayout.putConstraint(
+        infoLayout.putConstraint(
                 SpringLayout.SOUTH, cancelButton,
                 0,
                 SpringLayout.SOUTH, okButton
         );
-        mainLayout.putConstraint(
+        infoLayout.putConstraint(
                 SpringLayout.EAST, cancelButton,
                 -15,
                 SpringLayout.WEST, okButton

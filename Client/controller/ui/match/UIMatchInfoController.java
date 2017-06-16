@@ -40,6 +40,10 @@ public class UIMatchInfoController extends UIController {
         addEventListeners();
     }
     
+    public void setDrawButtonEnable(boolean enable) {
+        drawButton.setEnabled(enable);
+    }
+    
     public void setRoomName(String roomName) {
         roomNameLabel.setText(String.format("PHÒNG %s", roomName));
     }
@@ -52,7 +56,7 @@ public class UIMatchInfoController extends UIController {
         drawButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (drawButtonResponser != null) {
+                if (drawButton.isEnabled() && drawButtonResponser != null) {
                     drawButtonResponser.response();
                 }
             } 

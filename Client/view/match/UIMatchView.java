@@ -11,7 +11,7 @@ public class UIMatchView extends UIView {
     
     public UIMatchView() {
         super();
-        super.setBackground(ColorDefine.MATCH);
+        super.setBackground(ColorDefine.MATCH_BKG);
         
         uiBoardView = new UIBoardView();
         uiMatchInfoView = new UIMatchInfoView();

@@ -13,9 +13,9 @@ public class UserDAO {
         Player player = new Player(playerID, "", 0);
         
         player.setLevel(99);
-        player.setName("Minh Trí ĐàoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBBBBBBBBBBBBBBBBBBBBB");
+        player.setName("Tri Dao");
         
-        return null;
+        return player;
     }
     
 }

@@ -37,6 +37,7 @@ public class UIBoardController extends UIController {
     private boolean isLockedMoving;
     private IResult.ResponseReceiver movingCallback;
     private IResult.ResponseReceiver attackCallback;
+    private IResult.Responser doneCallback;
     
     public UIBoardController(EPieceColors playerColor, Board board) {
         this(playerColor, board, new UIBoardView());
@@ -65,6 +66,10 @@ public class UIBoardController extends UIController {
     
     public void setAttackListener(IResult.ResponseReceiver attackCallback) {
         this.attackCallback = attackCallback;
+    }
+    
+    public void setDoneListener(IResult.Responser doneCallback) {
+        this.doneCallback = doneCallback;
     }
     
     public void requireMoving() {
@@ -96,7 +101,7 @@ public class UIBoardController extends UIController {
     
     private JPanel createCell(int cellID, Color color) {
         UIBoardCellController cellController = new UIBoardCellController(cellID, color);
-        cellController.setSize(SizeDefine.CELL);
+        cellController.setSize(SizeDefine.BOARD_CELL);
         cellController.addMouseClickListener((Object obj) -> {
             if (!this.isLockedMoving) {
                 UIBoardCellController cell = (UIBoardCellController)obj;
@@ -112,7 +117,7 @@ public class UIBoardController extends UIController {
     private JLabel createIndexLabel(String index) {
         JLabel indexLabel = new JLabel(index, SwingConstants.CENTER);
         indexLabel.setFont(FontDefine.CELL_INDEX);
-        indexLabel.setForeground(ColorDefine.CELL_INDEX);
+        indexLabel.setForeground(ColorDefine.MATCH_CELL_INDEX);
         return indexLabel;
     }
     
@@ -161,6 +166,10 @@ public class UIBoardController extends UIController {
                                 suggestion
                             });
                         }
+                        
+                        if (doneCallback != null) {
+                            doneCallback.response();
+                        }
                     }
                     this.uncheckAt(suggestion.rawValue());
                 }
@@ -184,6 +193,33 @@ public class UIBoardController extends UIController {
         this.board.move(prevPos, pos);
         this.setPieceImageAt(pos.rawValue(), this.getPieceImageAt(prevPos.rawValue()));
         this.clearPieceImageAt(prevPos.rawValue());
+    }
+    
+    public void moveByAI(EPositions prevPos, EPositions pos) {
+        boolean isAttacked = false;
+        
+        if (board.getPiece(pos) != null) { // actacked
+            // User actacked a piece
+            isAttacked = true;
+            if (this.attackCallback != null) {
+                this.attackCallback.receiveResult(new Piece[] {
+                        board.getPiece(prevPos),
+                        board.getPiece(pos)
+                });
+            }
+        }
+
+        this.board.move(prevPos, pos);
+        this.setPieceImageAt(pos.rawValue(), this.getPieceImageAt(prevPos.rawValue()));
+        this.clearPieceImageAt(prevPos.rawValue());
+        
+        if (!isAttacked && this.movingCallback != null) { // moved a piece
+            this.movingCallback.receiveResult(new Object[] {
+                board.getPiece(pos),
+                prevPos,
+                pos
+            });
+        }
     }
     
     private void setPieceImageAt(int cellID, ImageIcon image) {
@@ -220,6 +256,10 @@ public class UIBoardController extends UIController {
         if (boardCellController != null) {
             boardCellController.uncheck();
         }
+    }
+    
+    public Board getBoard() {
+        return board;
     }
     
 }

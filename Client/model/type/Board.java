@@ -13,7 +13,7 @@ import model.type.piece.Rook;
 
 public class Board {
     
-    private final Piece[] pieces;
+    private Piece[] pieces;
     
     public static Board create() {
         Board board = Board.createEmpty();
@@ -85,6 +85,22 @@ public class Board {
     
     public boolean isOutOfBound(EPositions position) {
         return position == null; // this condition is checked in EPositions enum
+    }
+    
+    public Board cloneBoard() {
+        int nPieces = pieces.length;
+        Board board = Board.createEmpty();
+        Piece[] clonedPieces = new Piece[nPieces];
+        board.pieces = clonedPieces;
+        
+        for (int iPiece = 0; iPiece < nPieces; ++iPiece) {
+            if (null != pieces[iPiece]) {
+                clonedPieces[iPiece] = pieces[iPiece].clonePiece();
+                clonedPieces[iPiece].setBoard(board);
+            }
+        }
+        
+        return board;
     }
     
 }

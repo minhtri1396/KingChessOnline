@@ -17,7 +17,7 @@ public class UIBoardView extends UIView {
     
     public UIBoardView() {
         super();
-        super.setBackground(ColorDefine.BOARD_BORDER);
+        super.setBackground(ColorDefine.MATCH_BOARD_BORDER);
         
         addComponents();
         setConstraints();
@@ -29,25 +29,25 @@ public class UIBoardView extends UIView {
         
         leftIndexs = new JPanel(new GridLayout(8, 0));
         leftIndexs.setPreferredSize(new Dimension(25, 0));
-        leftIndexs.setBackground(ColorDefine.BOARD_BORDER);
+        leftIndexs.setBackground(ColorDefine.MATCH_BOARD_BORDER);
         this.components.put("LeftIndexs", leftIndexs);
         this.add(leftIndexs);
         
         topIndexs = new JPanel(new GridLayout(0, 8));
         topIndexs.setPreferredSize(new Dimension(0, 25));
-        topIndexs.setBackground(ColorDefine.BOARD_BORDER);
+        topIndexs.setBackground(ColorDefine.MATCH_BOARD_BORDER);
         this.components.put("TopIndexs", topIndexs);
         this.add(topIndexs);
         
         rightIndexs = new JPanel(new GridLayout(8, 0));
         rightIndexs.setPreferredSize(new Dimension(25, 0));
-        rightIndexs.setBackground(ColorDefine.BOARD_BORDER);
+        rightIndexs.setBackground(ColorDefine.MATCH_BOARD_BORDER);
         this.components.put("RightIndexs", rightIndexs);
         this.add(rightIndexs);
         
         bottomIndexs = new JPanel(new GridLayout(0, 8));
         bottomIndexs.setPreferredSize(new Dimension(0, 25));
-        bottomIndexs.setBackground(ColorDefine.BOARD_BORDER);
+        bottomIndexs.setBackground(ColorDefine.MATCH_BOARD_BORDER);
         this.components.put("BottomIndexs", bottomIndexs);
         this.add(bottomIndexs);
     }

@@ -63,10 +63,12 @@ public class Pawn extends Piece {
                 false)) {
             if (isFirstMoving) {
                 int jumpCoef = super.color == EPieceColors.WHITE ? -2 : 2;
-                super.addAndVerifyPosition(
-                        EPositions.getPosition(pos.getY() + jumpCoef, pos.getX()),
-                        validPositions
-                );
+                if (board.getPiece(EPositions.getPosition(pos.getY() + jumpCoef, pos.getX())) == null) {
+                    super.addAndVerifyPosition(
+                            EPositions.getPosition(pos.getY() + jumpCoef, pos.getX()),
+                            validPositions
+                    );
+                }
             }
         }
         
@@ -82,6 +84,11 @@ public class Pawn extends Piece {
         }
         
         return validPositions;
+    }
+    
+    @Override
+    public int getHeuristicValue() {
+        return 100;
     }
     
 }

@@ -87,7 +87,7 @@ public class UIMatchInfoView extends UIView {
         drawButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         drawButton.setFont(FontDefine.DRAW_BUTTON);
         drawButton.setPreferredSize(SizeDefine.DRAW_BUTTON);
-        drawButton.setBackground(ColorDefine.DRAW_MATCH_BUTTON);
+        drawButton.setBackground(ColorDefine.MATCH_DRAW_BUTTON);
         drawButton.setForeground(Color.WHITE);
         this.components.put("DrawButton", drawButton);
         buttonPanel.add(drawButton);
@@ -96,7 +96,7 @@ public class UIMatchInfoView extends UIView {
         exitButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         exitButton.setFont(FontDefine.EXIT_BUTTON);
         exitButton.setPreferredSize(SizeDefine.EXIT_BUTTON);
-        exitButton.setBackground(ColorDefine.EXIT_MATCH_BUTTON);
+        exitButton.setBackground(ColorDefine.MATCH_EXIT_BUTTON);
         exitButton.setForeground(Color.WHITE);
         this.components.put("ExitButton", exitButton);
         buttonPanel.add(exitButton);

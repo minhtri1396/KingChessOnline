@@ -67,7 +67,8 @@ public class MessagesManager {
         EXIT(1),
         MOVING(2),
         RAW_REPLY(3),
-        RAW(4);
+        RAW(4),
+        JOIN(5);
         
         private final int id;
         private PeerMessageType(int id) {
@@ -109,6 +110,8 @@ public class MessagesManager {
                 return RawReplyRequester.Instance;
             case RAW:
                 return RawRequester.Instance;
+            case JOIN:
+                return JoinRequester.Instance;
             default:
                 return null;
         }
@@ -128,6 +131,8 @@ public class MessagesManager {
                 return RawReplyResponser.Instance;
             case RAW:
                 return RawResponser.Instance;
+            case JOIN:
+                return JoinResponser.Instance;
             default:
                 return null;
         }

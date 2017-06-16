@@ -46,6 +46,9 @@ public class Wrapper {
             if (value instanceof byte[]) {
                 info[iInfo] = ((byte[]) value).length;
                 countBytes += Math.ceil(info[iInfo] / 126.0) + info[iInfo++];
+                if (((byte[]) value).length == 1) { // dangerous case
+                    info[iInfo - 1] |= 0x80000000;
+                }
             } else {
                 info[iInfo++] = 1;
                 countBytes += 2;
@@ -67,7 +70,11 @@ public class Wrapper {
                 }
                 pack[iPack++] = (byte)partSize;
             } else {
-                pack[iPack++] = (byte)size;
+                if ((size - 0x80000000) == 1) { // byte[] type
+                    pack[iPack++] = (byte)(1 | 0x80);
+                } else {
+                    pack[iPack++] = (byte)size;
+                }
             }
         }
         
@@ -84,15 +91,16 @@ public class Wrapper {
         byte[] part;
         int iMessage = 0, iPart;
         for (int size : info) {
-            if (size > 1) {
+            if (size == 1) {
+                message[iMessage++] = pack[iPack++];
+            } else {
                 iPart = 0;
+                size &= 0x7FFFFFFF;
                 part = new byte[size];
                 message[iMessage++] = part;
                 while (iPart < size) {
                     part[iPart++] = pack[iPack++];
                 }
-            } else {
-                message[iMessage++] = pack[iPack++];
             }
         }
         
@@ -104,7 +112,7 @@ public class Wrapper {
         
         for (byte b : pack) {
             if (b == 0) { break; }
-            if ((b & 0x80) == 0) {
+            if ((b & 0x80) == 0 || (b & 0x7F) == 1) { // (b & 0x7F) == 1 <=> byte[] type
                 ++count;
             }
         }
@@ -120,10 +128,15 @@ public class Wrapper {
             if ((pack[iPack] & 0x80) == 0) {
                 info[iInfo] = pack[iPack++];
             } else {
-                while ((pack[iPack] & 0x80) != 0) {
-                    info[iInfo] += (pack[iPack++] & 0x7F); // (pack[iPack++] & 0x7F) is 126
+                if ((pack[iPack] & 0x7F) == 1) { // byte[] type
+                    info[iInfo] = 1 | 0x80000000;
+                    iPack++;
+                } else {
+                    while ((pack[iPack] & 0x80) != 0) {
+                        info[iInfo] += (pack[iPack++] & 0x7F); // (pack[iPack++] & 0x7F) is 126
+                    }
+                    info[iInfo] += pack[iPack++];
                 }
-                info[iInfo] += pack[iPack++];
             }
             ++iInfo;
         }

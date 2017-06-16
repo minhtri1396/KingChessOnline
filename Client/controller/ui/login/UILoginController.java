@@ -1,5 +1,6 @@
 package controller.ui.login;
 
+import controller.communication.MessagesManager;
 import controller.ui.UIController;
 import model.define.StringDefine;
 import java.awt.event.MouseAdapter;
@@ -7,25 +8,26 @@ import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import main.App;
+import model.IResult;
+import model.communication.client_server.ConnectingServer;
+import model.type.Player;
 import view.login.UILoginView;
 
 public class UILoginController extends UIController {
     
-    private final JRadioButton studentLoginRadio;
-    private final JRadioButton giaovuLoginRadio;
     private final JTextField userNameTextField;
     private final JPasswordField passTextField;
     private final JButton loginBtn;
+    
+    private IResult.ResponseReceiver loginSuccessListener;
     
     private boolean isLoading;
     
     public UILoginController() {
         super(new UILoginView());
         
-        studentLoginRadio = (JRadioButton)super.findViewById("StudentLoginRadio");
-        giaovuLoginRadio = (JRadioButton)super.findViewById("GiaoVuLoginRadio");
         userNameTextField = (JTextField)super.findViewById("UserNameTextField");
         passTextField = (JPasswordField)super.findViewById("PassTextField");
         loginBtn = (JButton)super.findViewById("LoginButton");
@@ -35,32 +37,35 @@ public class UILoginController extends UIController {
         addListenerForViews();
     }
 
+    private boolean isCanConnectToServer;
     private void addListenerForViews() {
         loginBtn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (!isLoading && isCompleted()) {
-                    String userID = userNameTextField.getText();
-                    if (true) {
-                        if (userID.equals(new String(passTextField.getPassword()))) {
+                    String username = userNameTextField.getText();
+                    String password = new String(passTextField.getPassword());
+                    Player player = getPlayer(username, password);
+                    if (player != null) {
+                        if (username.equals(password)) {
                             UIChangePasswordController uiChangePasswordController =
                                     new UIChangePasswordController();
-                            uiChangePasswordController.setInformation(userID);
+                            uiChangePasswordController.setInformation(username);
                             uiChangePasswordController.setResponseReceiver((Object obj) -> {
-//                                Application.getInstance().setVisible(true);
-//                                Application.getInstance().requestFocusInWindow();
-//                                Application.getInstance().setEnabled(true);
+                                App.getInstance().setVisible(true);
+                                App.getInstance().requestFocusInWindow();
+                                App.getInstance().setEnabled(true);
                                 boolean isSuccessed = (boolean)obj;
                                 if (isSuccessed) {
-                                    login();
+                                    login(player);
                                 }
                             });
-//                            Application.getInstance().setEnabled(false);
+                            App.getInstance().setEnabled(false);
                             uiChangePasswordController.show();
                         } else {
-                            login();
+                            login(player);
                         }
-                    } else {
+                    } else if (isCanConnectToServer) {
                         JOptionPane.showMessageDialog(
                                 null,
                                 "Tên đăng nhập không tồn tại hoặc mật khẩu không chính xác",
@@ -98,22 +103,35 @@ public class UILoginController extends UIController {
         return false;
     }
     
-    private void login() {
+    private Player getPlayer(String username, String password) {
+        isCanConnectToServer = true;
+        
+        if (ConnectingServer.CONNECTOR.create(App.SERVER_IP, App.SERVER_PORT)) {
+            return (Player)ConnectingServer.CONNECTOR.sendMessage(
+                    MessagesManager.MessageType.LOGIN,
+                    new String[] {
+                        username,
+                        password
+                    }
+            );
+        }
+        
+        isCanConnectToServer = false;
+        App.getInstance().alertDisconnection();
+        return null;
+    }
+    
+    private void login(Player player) {
         if (isLoading) {
         } else {
             isLoading = true;
             loginBtn.setText("Loading...");
             setEnableViews(false);
-            String userID = userNameTextField.getText();
-
+            
             new Thread(() -> {
-//                UIController uiController;
-//                if (studentLoginRadio.isSelected()) { // student login
-//                    uiController = new controller.sinhvien.UIMainController(userID);
-//                } else { // giaovu login
-//                    uiController = new controller.giaovu.UIMainController(userID);
-//                }
-//                Application.getInstance().show(uiController.getContentView(), userID);
+                if (loginSuccessListener != null) {
+                    loginSuccessListener.receiveResult(player);
+                }
                 passTextField.setText("");
                 isLoading = false;
                 loginBtn.setText(StringDefine.LOGIN_BTN);
@@ -124,10 +142,12 @@ public class UILoginController extends UIController {
     
     private void setEnableViews(boolean enable) {
         loginBtn.setEnabled(enable);
-        giaovuLoginRadio.setEnabled(enable);
-        studentLoginRadio.setEnabled(enable);
         userNameTextField.setEnabled(enable);
         passTextField.setEnabled(enable);
+    }
+    
+    public void setLoginSuccessListener(IResult.ResponseReceiver listener) {
+        loginSuccessListener = listener;
     }
     
 }

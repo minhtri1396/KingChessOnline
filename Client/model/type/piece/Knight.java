@@ -55,4 +55,9 @@ public class Knight extends Piece {
         return validPositions;
     }
     
+    @Override
+    public int getHeuristicValue() {
+        return 300;
+    }
+    
 }

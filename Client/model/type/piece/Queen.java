@@ -62,4 +62,9 @@ public class Queen extends Piece
         }
     }
     
+    @Override
+    public int getHeuristicValue() {
+        return 1000;
+    }
+    
 }

@@ -13,12 +13,14 @@ public class ThreadPool {
     private ThreadPool() {}
     
     public void start() {
-        threadExcutor = Executors.newFixedThreadPool(
-                Runtime.getRuntime().availableProcessors() - 1); // one for main thread
+//        threadExcutor = Executors.newFixedThreadPool(
+//                Runtime.getRuntime().availableProcessors() - 1); // one for main thread
+        threadExcutor = Executors.newFixedThreadPool(100);
     }
     
     public int getValidNumberThreads() {
-        return Runtime.getRuntime().availableProcessors() - 1;
+//        return Runtime.getRuntime().availableProcessors() - 1;
+        return 100;
     }
     
     public void shutdown() {

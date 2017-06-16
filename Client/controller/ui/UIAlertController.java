@@ -2,12 +2,12 @@ package controller.ui;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
+import main.App;
 import model.IResult;
 import view.UIAlertView;
+import view.UIView;
 
 public class UIAlertController extends UISubWindowController {
     
@@ -20,7 +20,11 @@ public class UIAlertController extends UISubWindowController {
     private IResult.Responser cancelButtonListener;
     
     public UIAlertController() {
-        super(new UIAlertView());
+        this(new UIAlertView());
+    }
+    
+    public UIAlertController(UIView uiView) {
+        super(uiView);
         
         titleLabel = (JTextPane)super.findViewById("TitleLabel");
         content = (JTextPane)super.findViewById("Content");
@@ -52,19 +56,19 @@ public class UIAlertController extends UISubWindowController {
                 }
             }
         });
-        
-        super.dialog.addWindowFocusListener(new WindowFocusListener() {
-            @Override
-            public void windowGainedFocus(WindowEvent e) {}
-            
-            @Override
-            public void windowLostFocus(WindowEvent e) {
-                close();
-                if (cancelButtonListener != null) {
-                    cancelButtonListener.response();
-                }
-            }
-        });
+    }
+    
+    @Override
+    public void show() {
+        App.getInstance().setEnabled(false);
+        super.show();
+    }
+    
+    @Override
+    public void close() {
+        super.close();
+        App.getInstance().setEnabled(true);
+        App.getInstance().setVisible(true);
     }
     
     @Override
@@ -82,6 +86,22 @@ public class UIAlertController extends UISubWindowController {
     
     public void setCancelButtonListener(IResult.Responser cancelButtonListener) {
         this.cancelButtonListener = cancelButtonListener;
+    }
+    
+    public void setHideOKButton(boolean hide) {
+        okButton.setVisible(!hide);
+    }
+    
+    public void setHideCancelButton(boolean hide) {
+        cancelButton.setVisible(!hide);
+    }
+    
+    public void setOKButtonTitle(String tilte) {
+        okButton.setText(tilte);
+    }
+    
+    public void setCancelButtonTitle(String tilte) {
+        cancelButton.setText(tilte);
     }
     
 }

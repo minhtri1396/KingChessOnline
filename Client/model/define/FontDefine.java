@@ -25,4 +25,13 @@ public class FontDefine {
     public static final Font ALERT_TITLE = new Font("sans-serif", Font.PLAIN, 18);
     public static final Font ALERT_CONTENT = new Font("sans-serif", Font.PLAIN, 20);
     
+    public static final Font ROOM_DETAIL = new Font ("sans-serif",Font.BOLD, 18);
+    public static final Font JOIN_ROOM_BUTTON = new Font ("sans-serif",Font.BOLD, 20);
+    
+    public static final Font EMPTY_LIST_LABEL = new Font ("sans-serif",Font.BOLD, 35);
+    
+    public static final Font TOP_INFO_BAR = new Font ("sans-serif",Font.PLAIN, 17);
+    
+    public static final Font PLACEHOLDER_TEXTFIELD = new Font ("sans-serif",Font.PLAIN, 17);
+    
 }

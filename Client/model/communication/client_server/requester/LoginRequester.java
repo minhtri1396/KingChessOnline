@@ -3,6 +3,7 @@ package model.communication.client_server.requester;
 import model.communication.IRequester;
 import controller.communication.MessagesManager;
 import helper.Converter;
+import helper.PortManager;
 import helper.Wrapper;
 import model.type.Player;
 
@@ -12,16 +13,13 @@ public class LoginRequester implements IRequester {
     // Param: String[2] -> 0: username, 1: password
     @Override
     public byte[] getRequestContent(Object values) {
-        if (values instanceof String[]) {
-            String[] userInfo = (String[]) values;
-            return Wrapper.INSTANCE.wrap(new Object[] {
-                Converter.toBytes(MessagesManager.MessageType.LOGIN.rawValue()),
-                Converter.toBytes(userInfo[0]), // username
-                Converter.toBytes(userInfo[1])  // password
-            });
-        }
+        String[] userInfo = (String[]) values;
         
-        return null;
+        return Wrapper.INSTANCE.wrap(new Object[] {
+            Converter.toBytes(MessagesManager.MessageType.LOGIN.rawValue()),
+            Converter.toBytes(userInfo[0]), // username
+            Converter.toBytes(userInfo[1])  // password
+        });
     }
 
     @Override
@@ -34,7 +32,7 @@ public class LoginRequester implements IRequester {
             player = new Player(
                     playerID,
                     Converter.toString((byte[])info[3]), // IP address
-                    0
+                    PortManager.getFreePort()
             );
             player.setLevel(Converter.toInt((byte[])info[1]));
             player.setName(Converter.toString((byte[])info[2]));

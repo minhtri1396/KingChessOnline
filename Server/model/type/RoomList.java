@@ -9,7 +9,7 @@ public class RoomList {
     private final TreeMap<Integer, Object[]> rooms; // 0: room, 1: room admin (player)
     
     public RoomList() {
-        timestamp = new Long(0);
+        timestamp = System.currentTimeMillis();
         rooms = new TreeMap<>();
     }
 
@@ -31,24 +31,24 @@ public class RoomList {
     }
     
     public boolean updateRoom(Room room) {
-        Object[] content;
         boolean isSuccess = false;
-        synchronized(rooms) {
-            if ((content = rooms.get(room.getId())) != null) {
-                Room oldRoom = (Room)content[0]; // 0: room, 1: admin
-                if (!oldRoom.getName().equals(room.getName())) {
-                    oldRoom.setName(room.getName());
-                    timestamp = System.currentTimeMillis();
-                }
-                
-                if (oldRoom.getNumberPlayers() != room.getNumberPlayers()) {
-                    oldRoom.setNumberPlayers(room.getNumberPlayers());
-                    timestamp = System.currentTimeMillis();
-                }
-                
-                isSuccess = true;
+        Object[] content = getValues(room.getId());
+        
+        if (content != null) {
+            Room oldRoom = (Room)content[0]; // 0: room, 1: admin
+            if (!oldRoom.getName().equals(room.getName())) {
+                oldRoom.setName(room.getName());
+                timestamp = System.currentTimeMillis();
             }
+
+            if (oldRoom.getNumberPlayers() != room.getNumberPlayers()) {
+                oldRoom.setNumberPlayers(room.getNumberPlayers());
+                timestamp = System.currentTimeMillis();
+            }
+            oldRoom.resetRestTime();
+            isSuccess = true;
         }
+        
         return isSuccess;
     }
     
@@ -56,7 +56,8 @@ public class RoomList {
         synchronized(rooms) {
             rooms.put(room.getId(), new Object[]{
                 room,
-                admin
+                admin,
+                null
             });
             timestamp = System.currentTimeMillis();
         }
@@ -67,6 +68,40 @@ public class RoomList {
             rooms.remove(id);
             timestamp = System.currentTimeMillis();
         }
+    }
+    
+    public synchronized Room getRoom(int id) {
+        Object[] values = getValues(id);
+        if (values != null) {
+            Room room = (Room)values[0];
+            
+            if (room.getNumberPlayers() == 2) {
+                return null;
+            }
+            
+            return room;
+        }
+        
+        return null;
+    }
+    
+    public Player getAdmin(int id) {
+        Object[] values = getValues(id);
+        if (values != null) {
+            return (Player)values[1];
+        }
+        
+        return null;
+    }
+    
+    private Object[] getValues(int id) {
+        Object[] values;
+        
+        synchronized(rooms) {
+            values = rooms.get(id);
+        }
+        
+        return values;
     }
     
 }

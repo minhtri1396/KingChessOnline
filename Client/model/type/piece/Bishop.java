@@ -55,4 +55,9 @@ public class Bishop extends Piece {
         }
     }
     
+    @Override
+    public int getHeuristicValue() {
+        return 300;
+    }
+    
 }
